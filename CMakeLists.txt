@@ -11,7 +11,10 @@ qt_standard_project_setup()
 
 qt_add_executable(appKetangpai main.cpp)
 
-qt_add_qml_module(appKetangpai URI Ketangpai VERSION 1.0 SOURCES)
+qt_add_qml_module(appKetangpai URI Ketangpai VERSION 1.0 SOURCES
+    QML_FILES Content.qml
+    QML_FILES Window.qml
+    SOURCES httpserver.h httpserver.cpp)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 
