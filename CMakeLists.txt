@@ -5,19 +5,44 @@ project(
   VERSION 0.1
   LANGUAGES CXX)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup()
 
 qt_add_executable(appKetangpai main.cpp)
 
-qt_add_qml_module(appKetangpai URI Ketangpai VERSION 1.0 SOURCES
-    QML_FILES Content.qml
-    QML_FILES Window.qml
-    SOURCES httpserver.h httpserver.cpp
-    QML_FILES Login.qml
-    QML_FILES Createcourse_teacher.qml
-    QML_FILES )
+# <<<<<<< HEAD qt_add_qml_module(appKetangpai URI Ketangpai VERSION 1.0 SOURCES
+# QML_FILES Content.qml QML_FILES Window.qml SOURCES httpserver.h httpserver.cpp
+# QML_FILES Login.qml QML_FILES Createcourse_teacher.qml QML_FILES )
+# =======
+qt_add_qml_module(
+  appKetangpai
+  URI
+  Ketangpai
+  VERSION
+  1.0
+  SOURCES
+  QML_FILES
+  Content.qml
+  QML_FILES
+  Window.qml
+  SOURCES
+  httpserver.h
+  httpserver.cpp
+  QML_FILES
+  HomePage_student.qml
+  QML_FILES
+  HomePage_teacher.qml
+  RESOURCES
+  QML_FILES
+  Dialogs.qml
+  QML_FILES
+  DisplayCourseCodePage.qml
+  QML_FILES
+  Login.qml
+  QML_FILES
+  Createcourse_teacher.qml)
+# >>>>>>> origin/dev
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 

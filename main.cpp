@@ -4,8 +4,6 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-
     // 先运行后端服务器
     // 创建服务器实体
     // HttpServer httpServer;
@@ -15,6 +13,7 @@ int main(int argc, char *argv[])
     // }
 
     // qDebug() << "http server running...";
+    QGuiApplication app(argc, argv);
     // 再运行客户端
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Ketangpai/Window.qml"));
