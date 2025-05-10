@@ -6,7 +6,8 @@ import QtQuick.Controls
 Page {
     id:courseDetail_teacher
 
-    signal pushHomework()
+    signal pushHomework_teacher
+    signal exitThisPage
 
     header:Rectangle{
         id:t_rec
@@ -19,7 +20,7 @@ Page {
         MouseArea{
             anchors.fill: parent
             onClicked:{
-                t_rec.color= "red"
+                exitThisPage()
             }
         }
     }
@@ -508,7 +509,7 @@ Page {
                                                         onClicked: {
                                                             console.log("点击了ID:", interactiveCourseware_Model.itemId)
                                                             console.log("索引:", index)  // 可以直接使用index
-                                                            pushHomework()
+                                                            pushHomework_teacher()
                                                         }
                                                     }
                                         }

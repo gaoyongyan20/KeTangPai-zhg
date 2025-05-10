@@ -26,6 +26,32 @@ Page {
         height: parent.height
         Column{
             spacing: 5
+
+            Rectangle{
+                id:detail_and_review
+                width: homeworkDetail_student.width
+                height: 40
+                Row{
+                    anchors.fill: parent
+                    Rectangle{
+                        width: detail_and_review.width*0.5
+                        height: detail_and_review.height
+                        Text{
+                            text:"发表评论"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle{
+                        width: detail_and_review.width*0.5
+                        height: detail_and_review.height
+                        Text{
+                            text:"提交作业"
+                            anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+
             //作业的简介
             Rectangle{
                 width: homeworkDetail_student.width
@@ -87,31 +113,14 @@ Page {
             }
         }
     }
+    //发表评论
     footer:Rectangle{
-        id:submit_and_comment
         width: homeworkDetail_student.width
         height: 40
         color: "grey"
-        Row{
+        Button{
             anchors.fill: parent
-            Rectangle{
-                width: submit_and_comment.width*0.3
-                height: submit_and_comment.height
-                color: "white"
-                Text{
-                    text:"发表评论"
-                    anchors.centerIn: parent
-                }
-            }
-            Rectangle{
-                width: submit_and_comment.width*0.7
-                height: submit_and_comment.height
-                color: "blue"
-                Text{
-                    text:"提交作业"
-                    anchors.centerIn: parent
-                }
-            }
+            text:"发表评论..."
         }
     }
 }

@@ -5,6 +5,10 @@ import QtQuick.Layouts
 Page {
     id: courseDetail_student
 
+    signal exitThisPage
+    //学生进入作业详情界面
+    signal pushHomework_student
+
     header:Rectangle{
         id:s_rec
         width: courseDetail_student.width
@@ -17,7 +21,8 @@ Page {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                s_rec.color="red"
+                exitThisPage()
+
             }
         }
     }
@@ -500,6 +505,11 @@ Page {
 
                                     delegate:Label{
                                         text:model.text
+                                        TapHandler{
+                                            onTapped: {
+                                                pushHomework_student()
+                                            }
+                                        }
                                     }
                                 }
 
