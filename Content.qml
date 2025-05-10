@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
+    property alias stackView: _stackView
     id: root
     width: parent.width
     height: parent.height
@@ -31,5 +32,8 @@ Item {
         Login {
             id: login
         }
+        // Createcourse_teacher {
+        //     id: page
+        // }
     }
 }
