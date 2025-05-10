@@ -16,6 +16,69 @@ ApplicationWindow {
     // 主内容区域
     Content {
         id: content
-        anchors.fill: parent // 改为填充整个窗口
+        anchors.fill: parent
+        //获取当前页面
+        property var currentPage: stackView.currentItem
+
+        //-----------------------------------------学生------------------------------------------------
+        //学生当在首页点击加入课程时，发出信号-以显示加入课程的三个选项的对话框
+        Connections {
+            target: content.currentPage
+            ignoreUnknownSignals: true
+            function onJoinCourses_student() {
+                content.joinCourses_student()
+            }
+        }
+
+        //学生当在首页点击加入课程时，显示加入课程的三个选项中“取消”的处理器，即关闭界面
+        dialogs.cancelJoinCourse_student.onClicked: {
+            content.cancelJoinCourse()
+        }
+
+        //----------------------------------------老师-------------------------------------------------------
+        //老师创建课程
+        dialogs.onCreateCourse: {
+            content.cancelJoinCourse()
+            stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
+        }
+
+        //老师当在首页点击加入课程时，发出信号-以显示加入课程的四个选项的对话框
+        Connections {
+            target: content.currentPage
+            ignoreUnknownSignals: true
+            function onJoinCourses_teacher() {
+                content.joinCourses_teacher()
+            }
+        }
+
+        //老师当在首页点击加入课程时，显示加入课程的四个选项中“取消”的处理器，即关闭界面
+        dialogs.cancelJoinCourse_teacher.onClicked: {
+            content.cancelJoinCourse()
+        }
+
+        //----------------------------------------老师和学生共同有的---------------------------------------------------
+        //学生/老师打开输入课程码页面
+        dialogs.onDisplayCourseCode: {
+            content.cancelJoinCourse()
+            stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
+        }
+
+        //老师和学生点击课程区域，可进入课程详情页
+        Connections {
+            target: content.currentPage
+            ignoreUnknownSignals: true
+            function onClickCourse() {
+                content.clickCourse()
+            }
+        }
+
+        //退出当前页面
+        Connections {
+            target: content.currentPage
+            ignoreUnknownSignals: true
+            function onExitThisPage() {
+                content.exitThisPage()
+            }
+        }
     }
 }
