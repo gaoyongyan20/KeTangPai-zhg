@@ -14,7 +14,10 @@ qt_add_executable(appKetangpai main.cpp)
 qt_add_qml_module(appKetangpai URI Ketangpai VERSION 1.0 SOURCES
     QML_FILES Content.qml
     QML_FILES Window.qml
-    SOURCES httpserver.h httpserver.cpp)
+    SOURCES httpserver.h httpserver.cpp
+    QML_FILES CourseDetail_student.qml
+    QML_FILES CourseDetail_teacher.qml
+    QML_FILES HomeworkDetail_student.qml)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 
