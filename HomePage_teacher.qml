@@ -35,6 +35,7 @@ Page {
                     height: 30
                     Text {
                         text: qsTr("置顶课程")
+                        // text: User.userId
                         font.pixelSize: 20
                         anchors.centerIn: parent
                     }
@@ -47,6 +48,7 @@ Page {
                     contentItem: Text {
                         id: _text
                         text: "创建/加入课程"
+                        // text: User.role
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter // 水平居中
                         verticalAlignment: Text.AlignVCenter // 垂直居中

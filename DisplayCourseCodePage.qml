@@ -88,10 +88,9 @@ Page {
                         font.pixelSize: 16
                         //限制用户只能输入1个数字
                         maximumLength: 1
-                        //合法器：限制用户只能输出0到9之间的数字
-                        validator: IntValidator {
-                            bottom: 0
-                            top: 9
+                        //合法器：
+                        validator: RegularExpressionValidator {
+                            regularExpression: /^[a-zA-Z0-9]$/
                         }
                         horizontalAlignment: TextInput.AlignHCenter
                         verticalAlignment: TextInput.AlignVCenter
@@ -106,6 +105,10 @@ Page {
                             } else if (index === 5 && text.length === 1) {
                                 //当输入到第6个字符时（因为index从0开始，text.length=5表示第6个框有内容）
                                 //验证输入的课程码的正确性
+                                const courseCode = inputRow.fields.map(
+                                                     field => field.children[0].text).join(
+                                                     '')
+                                console.log("完整课程码:", courseCode)
                                 console.log("调试6位加课码都已全部输入")
                             }
                         }

@@ -2,9 +2,8 @@
 // author：何泳珊 date:2025-4-6
 #pragma once
 
+#include <QHttpServer>
 #include <QObject>
-#include <QTcpServer> // TCP服务器类
-#include <QTcpSocket> // TCP套接字类
 
 class HttpServer : public QObject
 {
@@ -14,11 +13,10 @@ public:
     ~HttpServer();
 
     // 启动服务器
-    bool startServer(quint16 port);
-
-signals:
-    void serverStarted(); // 服务器启动信号
+    bool startServer();
 
 private:
-    QTcpServer *m_server;
+    QHttpServer *m_httpServer;
+    //构造路由表
+    void registerRoutes();
 };

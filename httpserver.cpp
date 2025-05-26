@@ -3,39 +3,42 @@
 
 #include "httpserver.h"
 #include <QDebug>
+#include <QTcpSocket>
+#include "databasemanagement.h"
+#include "loginservice.h"
 
 HttpServer::HttpServer(QObject *parent)
     : QObject(parent)
 {
-    m_server = new QTcpServer(this); // this ?
+    m_httpServer = new QHttpServer(this);
 }
 
-// 析构函数 （理由？）
 HttpServer::~HttpServer()
 {
-    // 停止服务器
-    // stopServer()
-    delete m_server;
+    delete m_httpServer;
 }
 
-// 启动服务器
-bool HttpServer::startServer(quint16 port)
+bool HttpServer::startServer()
 {
-    // 检查服务器是否已在监听
-    if (m_server->isListening()) {
-        qWarning() << "the server is already running";
+    registerRoutes(); // 注册路由
+    if (m_httpServer->listen(QHostAddress::Any, 8088)) {
+        qDebug() << "服务器连接成功";
+        // 连接数据库
+        DatabaseManagement::instance().connectToDatabase();
         return true;
-    }
-
-    // 尝试监听指定端口
-    // 告诉服务器监听地址地址和端口上的传入连接,Any表示监听任意接口上的连接
-    if (!(m_server->listen(QHostAddress::Any, port))) {
-        qWarning() << "Failed to start Server" << m_server->errorString();
+    } else {
+        qWarning() << "服务器连接失败";
         return false;
     }
+}
 
-    qDebug() << "Server started on port:" << port;
-    // 发射服务器启动信号？为什么要发送
-    // emit serverStarted(); // 发射服务器启动信号
-    return true;
+void HttpServer::registerRoutes()
+{
+    //登录服务
+    LoginService *loginService = new LoginService(this); // 注册登录路由
+    m_httpServer->route("/login",
+                        QHttpServerRequest::Method::Post,
+                        [loginService](const QHttpServerRequest &req) {
+                            return loginService->handleLogin(req);
+                        });
 }

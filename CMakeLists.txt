@@ -5,9 +5,10 @@ project(
   VERSION 0.1
   LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Sql HttpServer Network)
 
 qt_standard_project_setup()
+include_directories(${Qt6Sql_INCLUDE_DIRS})
 
 qt_add_executable(appKetangpai main.cpp)
 
@@ -45,7 +46,11 @@ qt_add_qml_module(
   QML_FILES
   HomeworkDetail_student.qml
   QML_FILES
-  HomeworkDetail_teacher.qml)
+  HomeworkDetail_teacher.qml
+  SOURCES databasemanagement.h databasemanagement.cpp
+  SOURCES loginservice.h loginservice.cpp
+  SOURCES user.h user.cpp
+  QML_FILES LoginController.js)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 
@@ -59,7 +64,8 @@ set_target_properties(
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
 
-target_link_libraries(appKetangpai PRIVATE Qt6::Quick)
+target_link_libraries(appKetangpai PRIVATE Qt6::Quick Qt6::Sql Qt6::Core
+                                           Qt6::HttpServer Qt6::Network)
 
 include(GNUInstallDirs)
 install(

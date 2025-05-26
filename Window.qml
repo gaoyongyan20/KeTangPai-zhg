@@ -89,15 +89,12 @@ ApplicationWindow {
             }
         }
 
-
         //老师点击作业区域，进入作业详情页
         Connections {
             target: content.currentPage
             ignoreUnknownSignals: true
             function onPushHomework_teacher() {
                 content.pushHomework_teacher()
-
-
             }
         }
 
@@ -106,10 +103,15 @@ ApplicationWindow {
         Connections {
             target: content.currentPage
             ignoreUnknownSignals: true
-            function onTeacherLoginSuccessfully() {
+            function onTeacherLoginSuccessfully(userData) {
+                //这里的userData是所有的user数据，包括密码，创建时间
+                User.userId = userData.user_id
+                User.role = userData.role
                 content.stackView.push(Qt.resolvedUrl("HomePage_teacher.qml"))
             }
-            function onStudentLoginSuccessfully() {
+            function onStudentLoginSuccessfully(userData) {
+                User.userId = userData.user_id
+                User.role = userData.role
                 content.stackView.push(Qt.resolvedUrl("HomePage_student.qml"))
             }
         }
@@ -119,8 +121,6 @@ ApplicationWindow {
             content.cancelJoinCourse()
             stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
         }
-
-
 
         //退出当前页面
         Connections {
