@@ -50,7 +50,10 @@ qt_add_qml_module(
   SOURCES databasemanagement.h databasemanagement.cpp
   SOURCES loginservice.h loginservice.cpp
   SOURCES user.h user.cpp
-  QML_FILES LoginController.js)
+  QML_FILES LoginController.js
+  QML_FILES CourseController.js
+  SOURCES course.h course.cpp
+  SOURCES courseservice.h courseservice.cpp)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 

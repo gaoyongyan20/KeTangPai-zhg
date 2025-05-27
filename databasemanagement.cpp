@@ -64,3 +64,45 @@ bool DatabaseManagement::identityVerification(const QString &role,
         return false;
     }
 }
+
+bool DatabaseManagement::createCourse(const QString &name,
+                                      const QString &classname,
+                                      const QString &joinCode,
+                                      const int &teacherId)
+{
+    QSqlQuery query;
+    // :name - :是占位符的一种表现形式
+    query.prepare(
+        "INSERT INTO courses (course_name, course_code, class_name, teacher_id) VALUES (:name, "
+        ":code, :classname, :teacherid)");
+    query.bindValue(":name", name); // 将值绑定到占位符上
+    query.bindValue(":code", joinCode);
+    query.bindValue(":classname", classname);
+    query.bindValue(":teacherid", teacherId); // 同上
+
+    // // exec()表示执行sql语句
+    // if (!query.exec()) {
+    //     qWarning() << "SQL执行失败" << query.lastError().text();
+    // }
+
+    return query.exec(); // 返回bool值，true表示执行sql语句成功
+}
+
+bool DatabaseManagement::isJoinCodeExists(const QString &courseCode)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM courses WHERE course_code = ?");
+    query.addBindValue(courseCode);
+
+    if (!query.exec()) {
+        qDebug() << "查询执行失败:" << query.lastError().text();
+        return false;
+    } // 如果查询出错，假设不存在
+
+    // 如果查询成功
+    if (query.next()) {
+        return query.value(0).toInt() > 0;
+    }
+    // 查询出错的情况
+    return false;
+}

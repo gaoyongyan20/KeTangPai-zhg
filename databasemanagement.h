@@ -15,8 +15,13 @@ public:
                               const QString &account,
                               const QString &password,
                               QJsonObject &userData);
-
-signals:
+    // 执行创建课程操作
+    bool createCourse(const QString &name,
+                      const QString &classname,
+                      const QString &joinCode,
+                      const int &teacherId);
+    // 判断加课码是否存在
+    bool isJoinCodeExists(const QString &courseCode);
 
 private:
     QSqlDatabase m_db;

@@ -4,6 +4,7 @@
 #include "httpserver.h"
 #include <QDebug>
 #include <QTcpSocket>
+#include "courseservice.h"
 #include "databasemanagement.h"
 #include "loginservice.h"
 
@@ -36,9 +37,16 @@ void HttpServer::registerRoutes()
 {
     //登录服务
     LoginService *loginService = new LoginService(this); // 注册登录路由
+    // 课程相关服务
+    CourseService *courseService = new CourseService(this);
     m_httpServer->route("/login",
                         QHttpServerRequest::Method::Post,
                         [loginService](const QHttpServerRequest &req) {
                             return loginService->handleLogin(req);
+                        });
+    m_httpServer->route("/createCourse",
+                        QHttpServerRequest::Method::Post,
+                        [courseService](const QHttpServerRequest &req) {
+                            return courseService->handleCreateCourse(req);
                         });
 }
