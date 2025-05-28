@@ -1,3 +1,4 @@
+//author: 周杨康丽
 import QtQuick
 import QtQuick.Controls
 
@@ -45,7 +46,7 @@ Page {
                         width: detail_and_review.width*0.5
                         height: detail_and_review.height
                         Text{
-                            text:"提交作业"
+                            text:"批阅"
                             anchors.centerIn: parent
                         }
                     }

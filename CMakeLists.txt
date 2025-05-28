@@ -6,6 +6,8 @@ project(
   LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick HttpServer)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick HttpServer Sql)
 
 qt_standard_project_setup()
 
@@ -45,7 +47,36 @@ qt_add_qml_module(
   QML_FILES
   HomeworkDetail_student.qml
   QML_FILES
-  HomeworkDetail_teacher.qml)
+  HomeworkDetail_teacher.qml
+  RESOURCES
+  resourses.qrc
+  QML_FILES
+  Submithomework.qml
+  SOURCES
+  courseservice.h
+  SOURCES
+  courseservice.cpp
+  SOURCES
+  databasemanagement.h
+  SOURCES
+  databasemanagement.cpp
+  SOURCES
+  loginservice.h
+  SOURCES
+  loginservice.cpp
+  QML_FILES
+  CourseController.js
+  QML_FILES
+  LoginController.js
+  SOURCES
+  user.cpp
+  SOURCES
+  user.h
+  SOURCES
+  CourseBridge.h
+  SOURCES
+  CourseBridge.cpp
+  RESOURCES images/fujian images/kong images/D58FCE77E028C973A38D484FEF0ACDEB.jpg images/26EED3BCBAB42F269D4C7341E6DC5DDC.jpg images/8AA714276B6E7A6B96EF4FC1F77CA075.jpg images/7A8BC5015BA46B22BEC63AE81A579405.jpg images/0AA1239AAD8E13F9414FBF57703D8F48.jpg)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 
@@ -59,7 +90,7 @@ set_target_properties(
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
 
-target_link_libraries(appKetangpai PRIVATE Qt6::Quick)
+target_link_libraries(appKetangpai PRIVATE Qt6::Quick Qt6::HttpServer Qt6::Sql)
 
 include(GNUInstallDirs)
 install(

@@ -1,6 +1,8 @@
+//author: 周杨康丽
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "CourseController.js" as CourseController
 
 Page {
     id: courseDetail_student
@@ -8,6 +10,10 @@ Page {
     signal exitThisPage
     //学生进入作业详情界面
     signal pushHomework_student
+
+    // Component.onCompleted: {
+    //     CourseController.loadCourse_detail()
+    // }
 
     header:Rectangle{
         id:s_rec
@@ -39,6 +45,7 @@ Page {
             Text{
                 text: "Metors\n加课码："
             }
+
             Row{
                 spacing: 150
                  anchors.horizontalCenter: parent.horizontalCenter  // 关键代码
@@ -210,12 +217,11 @@ Page {
                     id:course_content
                     initialItem: directory
                     anchors {
-                        top: topBar.bottom
+                        top: course_content_text.bottom
                         bottom: parent.bottom
                         left: parent.left
                         right: parent.right
                     }
-
                 }
 
 
@@ -383,6 +389,15 @@ Page {
                            }
                 }
 
+                Rectangle{
+                    id:course_content_text
+                    height: 30
+                    width: courseDetail_student.width
+                    Text{
+                        text:"课程内容："
+                    }
+                    anchors.top: topBar.bottom
+                }
 
                 //目录的组件
                 Component{
@@ -390,16 +405,11 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
+
                             ScrollView{
-                                width: courseDetail_student.width
-                                height: parent.parent.height
+                                id:c
+                                width: parent.width
+                                height: parent.parent.height-30
 
                                 ListView{
                                     width: parent.width
@@ -414,22 +424,20 @@ Page {
 
                                 ListModel{
                                     id:interactiveCourseware_Model
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
+                                    // ListElement{
+                                    //     text:"ABC"
+                                    // }
                                 }
                             }
                         }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
+                        }
                     }
+
                 }
 
                 //互动课件组件
@@ -438,13 +446,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -465,17 +466,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -486,13 +484,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -518,17 +509,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -539,13 +527,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -566,17 +547,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -612,13 +590,6 @@ Page {
                             }
 
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -639,17 +610,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -660,13 +628,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -687,17 +648,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -708,13 +666,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -735,17 +686,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }
@@ -756,13 +704,6 @@ Page {
                     Page{
                         Column{
                             spacing: 5
-                            Rectangle{
-                                height: 30
-                                width: courseDetail_student.width
-                                Text{
-                                    text:"课程内容："
-                                }
-                            }
                             ScrollView{
                                 width: courseDetail_student.width
                                 height: parent.parent.height
@@ -783,17 +724,14 @@ Page {
                                     ListElement{
                                         text:"ABC"
                                     }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
-                                    ListElement{
-                                        text:"ABC"
-                                    }
                                 }
                             }
+                        }
+                        Image{
+                            source: "qrc:/kong.png"
+                            fillMode: Image.Stretch  // 保持比例，适应容器
+                            anchors.fill: parent  // 填充父容器
+                            visible: interactiveCourseware_Model.count ===0
                         }
                     }
                 }

@@ -59,6 +59,16 @@ ApplicationWindow {
             }
         }
 
+        //学生点击提交作业区域，进入提交作业界面
+        Connections{
+            target: content.currentPage
+            ignoreUnknownSignals: true
+            function onSubmitHomework(){
+                content.submitHomework()
+            }
+        }
+
+
         //----------------------------------------老师-------------------------------------------------------
         //老师创建课程
         dialogs.onCreateCourse: {
@@ -96,8 +106,6 @@ ApplicationWindow {
             ignoreUnknownSignals: true
             function onPushHomework_teacher() {
                 content.pushHomework_teacher()
-
-
             }
         }
 
@@ -109,17 +117,18 @@ ApplicationWindow {
             function onTeacherLoginSuccessfully() {
                 content.stackView.push(Qt.resolvedUrl("HomePage_teacher.qml"))
             }
-            function onStudentLoginSuccessfully() {
+            function onStudentLoginSuccessfully(username) {
                 content.stackView.push(Qt.resolvedUrl("HomePage_student.qml"))
+                console.log(username)
+                User.setName(username)
             }
         }
 
         //学生/老师打开输入课程码页面
         dialogs.onDisplayCourseCode: {
-            content.cancelJoinCourse()
-            stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
+                content.cancelJoinCourse()
+                stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
         }
-
 
 
         //退出当前页面

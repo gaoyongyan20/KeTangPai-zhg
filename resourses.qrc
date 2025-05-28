@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="myimage1.jpg">images/7A8BC5015BA46B22BEC63AE81A579405.jpg</file>
+        <file alias="myimage3.jpg">images/8AA714276B6E7A6B96EF4FC1F77CA075.jpg</file>
+        <file alias="myimage3.jpg">images/D58FCE77E028C973A38D484FEF0ACDEB.jpg</file>
+        <file alias="myimage4.jpg">images/0AA1239AAD8E13F9414FBF57703D8F48.jpg</file>
+        <file alias="myimage5.jpg">images/26EED3BCBAB42F269D4C7341E6DC5DDC.jpg</file>
+        <file alias="kong.png">images/kong</file>
+        <file alias="fujian.png">images/fujian</file>
+    </qresource>
+</RCC>
+

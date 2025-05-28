@@ -23,13 +23,18 @@ Item {
     //学生点击课程区域，可进入课程详情页槽函数实现
     function clickCourse_student() {
         _stackView.push(Qt.resolvedUrl("CourseDetail_student.qml"))
+
     }
 
-    //学生点击作业区域，进入作业详情页
+    //学生点击作业区域，进入作业详情页实现
     function pushHomework_student(){
         _stackView.push(Qt.resolvedUrl("HomeworkDetail_student.qml"))
     }
 
+    //学生点击提交作业区域（在学生作业详情界面的），进入作业提交界面
+    function submitHomework(){
+        _stackView.push(Qt.resolvedUrl("Submithomework.qml"))
+    }
 
     //---------------------------------老师----------------------------------------
 
@@ -47,6 +52,8 @@ Item {
     function pushHomework_teacher(){
         _stackView.push(Qt.resolvedUrl("HomeworkDetail_teacher.qml"))
     }
+
+
 
     //----------------------------老师和学生共同--------------------------------------
 

@@ -8,7 +8,7 @@ Page {
     // 老师登录成功后发出的信号
     signal teacherLoginSuccessfully
     // 学生登录成功后发出的信号
-    signal studentLoginSuccessfully
+    signal studentLoginSuccessfully(string username)  //一定要声明
 
     background: Rectangle {
         width: parent.width
@@ -50,7 +50,8 @@ Page {
             ColumnLayout {
                 spacing: 15
                 TextField {
-                    placeholderText: qsTr("请输入邮箱/账号/手机号")
+                    id:usernameField
+                    placeholderText: qsTr("请输入账号")
                     placeholderTextColor: "grey"
                     Layout.fillWidth: true // 填充父布局宽度
                     Layout.preferredWidth: parent.width
@@ -84,7 +85,7 @@ Page {
                     }
                     onClicked: choose_teacher.checked
                                === true ? teacherLoginSuccessfully(
-                                              ) : studentLoginSuccessfully()
+                                              ) : studentLoginSuccessfully(usernameField.text)
                 }
             }
         }

@@ -4,6 +4,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import "CourseController.js" as CourseController
 
 Page {
     //退出本页面
@@ -70,6 +71,14 @@ Page {
             spacing: 7
             Layout.alignment: Qt.AlignLeft
             property var fields: [] // 保存所有输入框引用
+
+            function getInputCode() {
+                return fields.map(field => {
+                    const textInput = field.children[0];
+                    return textInput ? textInput.text : "";
+                }).join("");
+            }
+
             //单个输入数字框
             Repeater {
                 model: 6 // 有6个模型输入框
@@ -89,10 +98,9 @@ Page {
                         //限制用户只能输入1个数字
                         maximumLength: 1
                         //合法器：限制用户只能输出0到9之间的数字
-                        validator: IntValidator {
-                            bottom: 0
-                            top: 9
-                        }
+                        validator: RegularExpressionValidator {
+                                                   regularExpression: /^[a-zA-Z0-9]$/
+                                               }
                         horizontalAlignment: TextInput.AlignHCenter
                         verticalAlignment: TextInput.AlignVCenter
                         focus: index === 0 // 默认第一个获得焦点
@@ -107,6 +115,12 @@ Page {
                                 //当输入到第6个字符时（因为index从0开始，text.length=5表示第6个框有内容）
                                 //验证输入的课程码的正确性
                                 console.log("调试6位加课码都已全部输入")
+                                //全部输入完整就发送加课码给服务器进行后续操作
+                                const courseCode = inputRow.fields.map(
+                                            field => field.children[0].text).join('')
+                                console.log("完整课程码:", courseCode)
+                                console.log(User.name)
+                                CourseController.joinRequest(3,courseCode)
                             }
                         }
                         //回退输入

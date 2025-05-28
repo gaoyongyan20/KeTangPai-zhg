@@ -1,6 +1,6 @@
+//author: 周杨康丽
 import QtQuick
 import QtQuick.Controls
-
 
 
 Page {
@@ -28,6 +28,12 @@ Page {
         color:"grey"
         width:courseDetail_teacher.width
         height: courseDetail_teacher.height-35
+
+        Image{
+            width: parent.width - 4
+            height: parent.height - 4
+            source: "qrc:/myimage1.jpg"
+        }
 
         //这里实现课程的标题简介板块
         Column{
@@ -386,7 +392,7 @@ Page {
                     //目录的组件
                     Component{
                         id:directory
-                        Page{
+
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -428,13 +434,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //互动课件组件
                     Component{
                         id:interactiveCourseware
-                        Page{
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -476,13 +481,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //作业组件
                     Component{
                         id:homework
-                        Page{
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -533,13 +537,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //测试组件
                     Component{
                         id:testing
-                        Page{
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -581,13 +584,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //资料组件
                     Component{
                         id:documents
-                        Page{
                             Column{
                                 Row{
                                     spacing: 40
@@ -654,13 +656,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //公告组件
                     Component{
                         id:announcements
-                        Page{
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -702,13 +703,12 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //话题组件
                     Component{
                         id:topics
-                        Page{
                             Column{
                                 spacing: 5
                                 Rectangle{
@@ -750,7 +750,7 @@ Page {
                                     }
                                 }
                             }
-                        }
+
                     }
 
                     //互动答题组件

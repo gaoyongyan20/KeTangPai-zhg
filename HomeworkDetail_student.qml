@@ -1,3 +1,4 @@
+//author: 周杨康丽
 import QtQuick
 import QtQuick.Controls
 
@@ -5,6 +6,9 @@ Page {
     id:homeworkDetail_student
 
     signal exitThisPage
+    signal submitHomework
+
+
 
     header: Rectangle{
         width:parent.width
@@ -33,10 +37,12 @@ Page {
                 color: "grey"
                 Column{
                     spacing: 10
+
                     Text {
                         text:"  作业简介："
                         font.pixelSize: 30
                     }
+
                     Row{
                         spacing: 20
                         Text{
@@ -84,6 +90,12 @@ Page {
                 width: homeworkDetail_student.width
                 height: 200
                 color: "blue"
+                clip: true
+                Image{
+                    source: "qrc:/kong.png"
+                    fillMode: Image.Stretch  // 保持比例，适应容器
+                    anchors.fill: parent  // 填充父容器
+                }
             }
         }
     }
@@ -110,6 +122,12 @@ Page {
                 Text{
                     text:"提交作业"
                     anchors.centerIn: parent
+                }
+                TapHandler{
+                    onTapped:{
+                        submitHomework()
+                        console.log("提交作业啦")
+                    }
                 }
             }
         }

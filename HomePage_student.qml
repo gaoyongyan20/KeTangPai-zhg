@@ -3,15 +3,32 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import "CourseController.js" as CourseController
 
 Page {
-    property alias text: _text
     id: _homePage_student
+    property alias text: _text
+    property alias course_list_model: _course_list_model
+    property alias couse_list: _couse_list
 
     //当点击加入课程时，发出信号-以显示加入课程页面
-    signal joinCourses_student
+    signal joinCourses_student()  //一定要声明
     //点击顶置课程的区域会触发这个信号
     signal clickCourse_student
+
+    //页面push加载成功后就显示数据
+    Component.onCompleted: {
+        courseBridge.loadCoursesFor(3)
+    }
+
+    Connections{
+        target: courseBridge
+        function onCoursesLoaded(jsonResoult){
+            CourseController.loadCourse(jsonResoult);
+        }
+    }
+
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ColumnLayout {
         //置顶课程
@@ -72,31 +89,38 @@ Page {
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOn
                     ScrollBar.vertical.policy: ScrollBar.AlwaysOff
                     ListView {
+                        id:_couse_list
                         orientation: ListView.Horizontal
                         width: 20
                         height: parent.height
                         spacing: 10
-                        model: 5
-                        // ListModel {}
+                        ListModel {
+                        id: _course_list_model
+                        }
                         delegate: ListDelegate {}
                     }
                     component ListDelegate: Rectangle {
+                        //获取的property
+                        required property string course_name
+                        required property string class_name
+                        required property string course_code
+                        required property int index
                         id: course
                         width: 140
-                        height: parent.height
+                        height: _couse_list.height
                         color: Qt.rgba(Math.random(), Math.random(),
                                        Math.random(), 1)
                         TapHandler {
-                            onTapped: clickCourse_student()
+                            onTapped:{
+                                console.log(index)
+                                clickCourse_student()
+                                }
                         }
                         Column {
                             //存放课程图片，因为资源文件不太可以，所以
                             Rectangle {
                                 width: 140
                                 height: 80
-                                Text {
-                                    text: "这里存放课程图片"
-                                }
                                 color: "#1e90ff"
                                 Button {
                                     text: ":"
@@ -108,18 +132,27 @@ Page {
                                     }
                                 }
                             }
+                            //显示课程码
+                            Text {
+                                id: code
+                                text: course_code
+                                font.pixelSize: 12
+                            }
+
                             //显示课程名称
                             Text {
                                 //后续使用id修改text
                                 id: courseName
-                                text: qsTr("课程名称")
+                                text: course_name
                             }
                             //显示课程所属班级
                             Text {
                                 //后续使用id修改text
                                 id: classs
-                                text: qsTr("课程所属班级")
+                                text:class_name
+                                font.pixelSize: 15
                             }
+
                         }
                     }
                 }
