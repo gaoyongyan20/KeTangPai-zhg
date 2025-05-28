@@ -9,6 +9,10 @@ import QtQuick.Layouts
 ApplicationWindow {
     width: 500
     height: 600
+    maximumHeight: 600
+    maximumWidth: 500
+    minimumHeight: 600
+    minimumWidth: 500
     visible: true
     title: qsTr("KeTangPai")
 
@@ -99,7 +103,6 @@ ApplicationWindow {
             }
         }
 
-
         //老师点击作业区域，进入作业详情页
         Connections {
             target: content.currentPage
@@ -114,13 +117,17 @@ ApplicationWindow {
         Connections {
             target: content.currentPage
             ignoreUnknownSignals: true
-            function onTeacherLoginSuccessfully() {
+            function onTeacherLoginSuccessfully(userData) {
+                //这里的userData是所有的user数据，包括密码，创建时间
+                User.userId = userData.user_id
+                User.role = userData.role
                 content.stackView.push(Qt.resolvedUrl("HomePage_teacher.qml"))
             }
-            function onStudentLoginSuccessfully(username) {
+            function onStudentLoginSuccessfully(userData) {
+                User.userId = userData.user_id
+                User.role = userData.role
                 content.stackView.push(Qt.resolvedUrl("HomePage_student.qml"))
-                console.log(username)
-                User.setName(username)
+
             }
         }
 
@@ -129,7 +136,6 @@ ApplicationWindow {
                 content.cancelJoinCourse()
                 stackView.push(Qt.resolvedUrl("DisplayCourseCodePage.qml"))
         }
-
 
         //退出当前页面
         Connections {

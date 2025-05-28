@@ -7,6 +7,7 @@ Page {
 
     signal exitThisPage
 
+
     header: Rectangle{
         width:parent.width
         height: 35

@@ -5,11 +5,13 @@ project(
   VERSION 0.1
   LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick HttpServer)
+# find_package(Qt6 6.5 REQUIRED COMPONENTS Quick) find_package(Qt6 6.5 REQUIRED
+# COMPONENTS Quick HttpServer)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick HttpServer Sql)
+# find_package(Qt6 REQUIRED COMPONENTS Quick Sql HttpServer Network)
 
 qt_standard_project_setup()
+include_directories(${Qt6Sql_INCLUDE_DIRS})
 
 qt_add_executable(appKetangpai main.cpp)
 
@@ -21,62 +23,77 @@ qt_add_qml_module(
   1.0
   SOURCES
   QML_FILES
-  Content.qml
+  Content.qml #
   QML_FILES
-  Window.qml
+  Window.qml #
   SOURCES
-  httpserver.h
-  httpserver.cpp
+  httpserver.h #
+  httpserver.cpp #
   QML_FILES
-  HomePage_student.qml
+  HomePage_student.qml #
   QML_FILES
-  HomePage_teacher.qml
+  HomePage_teacher.qml #
+  # RESOURCES
+  QML_FILES
+  Dialogs.qml #
+  QML_FILES
+  DisplayCourseCodePage.qml #
+  QML_FILES
+  Login.qml #
+  QML_FILES
+  Createcourse_teacher.qml #
+  QML_FILES
+  CourseDetail_student.qml #
+  QML_FILES
+  CourseDetail_teacher.qml #
+  QML_FILES
+  HomeworkDetail_student.qml #
+  QML_FILES
+  HomeworkDetail_teacher.qml #
+  QML_FILES
+  Submithomework.qml #
+  SOURCES
+  courseservice.h #
+  SOURCES
+  courseservice.cpp #
+  SOURCES
+  databasemanagement.h #
+  SOURCES
+  databasemanagement.cpp #
+  SOURCES
+  loginservice.h #
+  SOURCES
+  loginservice.cpp #
+  QML_FILES
+  CourseController.js #
+  QML_FILES
+  LoginController.js #
+  SOURCES
+  user.cpp #
+  SOURCES
+  user.h #
+  SOURCES
+  CourseBridge.h #
+  SOURCES
+  CourseBridge.cpp #
+  SOURCES
+  course.cpp
+  course.h
   RESOURCES
-  QML_FILES
-  Dialogs.qml
-  QML_FILES
-  DisplayCourseCodePage.qml
-  QML_FILES
-  Login.qml
-  QML_FILES
-  Createcourse_teacher.qml
-  QML_FILES
-  CourseDetail_student.qml
-  QML_FILES
-  CourseDetail_teacher.qml
-  QML_FILES
-  HomeworkDetail_student.qml
-  QML_FILES
-  HomeworkDetail_teacher.qml
+  resourses.qrc #
   RESOURCES
-  resourses.qrc
-  QML_FILES
-  Submithomework.qml
-  SOURCES
-  courseservice.h
-  SOURCES
-  courseservice.cpp
-  SOURCES
-  databasemanagement.h
-  SOURCES
-  databasemanagement.cpp
-  SOURCES
-  loginservice.h
-  SOURCES
-  loginservice.cpp
-  QML_FILES
-  CourseController.js
-  QML_FILES
-  LoginController.js
-  SOURCES
-  user.cpp
-  SOURCES
-  user.h
-  SOURCES
-  CourseBridge.h
-  SOURCES
-  CourseBridge.cpp
-  RESOURCES images/fujian images/kong images/D58FCE77E028C973A38D484FEF0ACDEB.jpg images/26EED3BCBAB42F269D4C7341E6DC5DDC.jpg images/8AA714276B6E7A6B96EF4FC1F77CA075.jpg images/7A8BC5015BA46B22BEC63AE81A579405.jpg images/0AA1239AAD8E13F9414FBF57703D8F48.jpg)
+  images/fujian
+  images/kong
+  images/D58FCE77E028C973A38D484FEF0ACDEB.jpg
+  images/26EED3BCBAB42F269D4C7341E6DC5DDC.jpg
+  images/8AA714276B6E7A6B96EF4FC1F77CA075.jpg
+  images/7A8BC5015BA46B22BEC63AE81A579405.jpg
+  images/0AA1239AAD8E13F9414FBF57703D8F48.jpg)
+
+# SOURCES databasemanagement.h databasemanagement.cpp SOURCES loginservice.h
+# loginservice.cpp SOURCES user.h user.cpp QML_FILES LoginController.js
+# QML_FILES CourseController.js SOURCES course.h course.cpp SOURCES
+# courseservice.h courseservice.cpp)
 
 target_compile_features(appKetangpai PRIVATE cxx_std_20)
 
@@ -92,6 +109,8 @@ set_target_properties(
 
 target_link_libraries(appKetangpai PRIVATE Qt6::Quick Qt6::HttpServer Qt6::Sql)
 
+# target_link_libraries(appKetangpai PRIVATE Qt6::Quick Qt6::Sql Qt6::Core
+# Qt6::HttpServer Qt6::Network)
 include(GNUInstallDirs)
 install(
   TARGETS appKetangpai

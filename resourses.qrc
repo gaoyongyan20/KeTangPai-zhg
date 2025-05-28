@@ -7,6 +7,8 @@
         <file alias="myimage5.jpg">images/26EED3BCBAB42F269D4C7341E6DC5DDC.jpg</file>
         <file alias="kong.png">images/kong</file>
         <file alias="fujian.png">images/fujian</file>
+        <file alias="coursePicture1.png">images/coursePicture1</file>
+        <file alias="coursePicture2.png">images/coursePicture2</file>
     </qresource>
 </RCC>
 

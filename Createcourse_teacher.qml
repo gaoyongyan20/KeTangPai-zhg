@@ -3,6 +3,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "CourseController.js" as CourseController
+import Ketangpai
 
 Page {
     // 退出创建课程时发出的信号
@@ -305,6 +307,78 @@ Page {
             color: parent.enabled ? "#1E90FF" : "gray"
             border.color: "#1E90FF"
             opacity: parent.pressed ? 0.7 : 1.0
+        }
+        onClicked: {
+            var courseObj = Qt.createQmlObject('import Ketangpai; Course {}',
+                                               parent, "dynamicObject")
+            if (courseObj !== null) {
+                console.log("动态创建课程对象成功")
+            }
+            // 设置课程对象属性
+            // 这里的属性设置的是实体类的属性，要与它的定义中一致
+            courseObj.name = courseName_field.text // 课程名, 因为name属性已经注册了，所以此时m_name = name
+            courseObj.className = className_field.text // 班级名
+            courseObj.teacherId = User.userId // 绑定当前用户的id
+            console.log("创建的课程名：" + courseObj.name)
+            console.log("创建的课程班级名：" + courseObj.className)
+            console.log("创建课程关联的老师id：" + courseObj.teacherId)
+            var jsonData = courseObj.toJson() // 将请求封装为json格式
+            CourseController.createCourseRequest(jsonData, function (response) {
+                if (response.status === "success") {
+                    courseBridge.load_TeacherCoursesFor(User.userId)
+                    console.log("创建课程对象成功!")
+                    // 1. 在ui应该显示创建对象成功的消息（用对话框吗？）
+                    toastNotification.show("课程创建成功！")
+                    // 2. 退出当前页面
+                    // 延迟1秒后退出页面，让用户看到提示
+                    exitTimer.start()
+                }
+            })
+        }
+    }
+    // 添加一个定时器用于延迟退出
+    Timer {
+        id: exitTimer
+        interval: 1000 // 1秒后退出
+        onTriggered: exitCreateCoursePage() // 定时器到时间后退出当前界面
+    }
+
+    // 在Page根元素内添加这个组件
+    Rectangle {
+        id: toastNotification
+        width: 200
+        height: 40
+        // color: "#4CAF50"  // 绿色背景
+        radius: 4
+        anchors.centerIn: parent
+        opacity: 0
+        visible: opacity > 0 // 只有在调用show函数的时候，此时opacity才>1
+
+        Label {
+            id: notification_label
+            text: "课程创建成功"
+            color: "black"
+            anchors.centerIn: parent
+            font.pixelSize: 14
+        }
+        // 实现效果：：透明度会在0.3秒内逐渐变化，而不是瞬间跳变
+        Behavior on opacity {
+            // 用于对数值类型属性（如 opacity、x、width 等）的变化过程进行插值动画
+            NumberAnimation {
+                duration: 300
+            }
+        }
+
+        Timer {
+            id: toastTimer
+            interval: 2000 // 2秒后自动消失
+            onTriggered: toastNotification.opacity = 0 // 当定时器时间到时，信息变为透明
+        }
+
+        function show(message) {
+            notification_label.text = message
+            toastNotification.opacity = 1
+            toastTimer.start()
         }
     }
 }

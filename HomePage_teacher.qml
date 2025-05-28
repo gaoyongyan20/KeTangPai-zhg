@@ -1,12 +1,28 @@
-//HomePage_teacher,老师首页界面
-//高永艳
+// HomePage_teacher,老师首页界面
+// 高永艳
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import "CourseController.js" as CourseController
+
 
 Page {
+    id: _homePage_teacher
+
     property alias text: _text
-    id: _homePage_student
+    property alias teachercourse_list_model: _teachercourse_list_model
+    property alias teachercouse_list: _teachercourse_list
+
+    Component.onCompleted: {
+        courseBridge.load_TeacherCoursesFor(User.userId)
+    }
+
+    Connections{
+        target: courseBridge
+        function onTeacherCoursesLoaded(jsonResoult){
+            CourseController.load_teacherCourse(jsonResoult)
+        }
+    }
 
     //学生当点击加入课程时，发出信号-以显示加入课程页面
     signal joinCourses_student
@@ -35,6 +51,7 @@ Page {
                     height: 30
                     Text {
                         text: qsTr("置顶课程")
+                        // text: User.userId
                         font.pixelSize: 20
                         anchors.centerIn: parent
                     }
@@ -47,7 +64,9 @@ Page {
                     contentItem: Text {
                         id: _text
                         text: "创建/加入课程"
+                        // text: User.role
                         color: "white"
+                        font.pixelSize: 17
                         horizontalAlignment: Text.AlignHCenter // 水平居中
                         verticalAlignment: Text.AlignVCenter // 垂直居中
                         anchors.fill: parent // 填满按钮区域
@@ -72,56 +91,59 @@ Page {
                 anchors.topMargin: 10
                 ScrollView {
                     anchors.fill: parent
-                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOn
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
                     ScrollBar.vertical.policy: ScrollBar.AlwaysOff
                     ListView {
+                        id:_teachercourse_list
                         orientation: ListView.Horizontal
                         width: 20
                         height: parent.height
                         spacing: 10
-                        model: 5
-                        // ListModel {}
+                        ListModel{
+                            id:_teachercourse_list_model
+                        }
+
                         delegate: ListDelegate {}
                     }
                     component ListDelegate: Rectangle {
+                        //获取的property
+                        required property string course_name
+                        required property string class_name
+                        required property string course_code
+                        required property int index
                         id: course
                         width: 140
-                        height: parent.height
-                        color: Qt.rgba(Math.random(), Math.random(),
-                                       Math.random(), 1)
+                        height: _teachercourse_list.height
+                        color:"grey"
                         TapHandler {
                             onTapped: clickCourse_teacher()
                         }
                         Column {
                             //存放课程图片，因为资源文件不太可以，所以
-                            Rectangle {
+
+                            Rectangle{
                                 width: 140
-                                height: 80
-                                Text {
-                                    text: "这里存放课程图片"
+                                height: 70
+
+                                Image{
+                                    anchors.fill: parent
+                                    source:index % 2 === 0 ? "qrc:/coursePicture2.png" : "qrc:/coursePicture1.png"
                                 }
-                                color: "#1e90ff"
-                                Button {
-                                    text: ":"
-                                    anchors.right: parent.right
-                                    width: 20
-                                    height: 20
-                                    background: Rectangle {
-                                        color: "#1e90ff"
-                                    }
-                                }
+                            }
+                            Text {
+                                text: course_code
+                                font.pixelSize: 8
                             }
                             //显示课程名称
                             Text {
-                                //后续使用id修改text
-                                id: courseName
-                                text: qsTr("课程名称")
+                                text: course_name
+                                font.pixelSize: 11
+                                font.bold: true
                             }
                             //显示课程所属班级
                             Text {
-                                //后续使用id修改text
-                                id: classs
-                                text: qsTr("课程所属班级")
+                                text:class_name
+                                font.pixelSize: 8
                             }
                         }
                     }
@@ -135,7 +157,7 @@ Page {
         Layout.alignment: Qt.AlignBottom
         implicitHeight: 35
         RowLayout {
-            spacing: 65
+            spacing: 55
             anchors.top: parent.top
             anchors.topMargin: 5
             //首页

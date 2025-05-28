@@ -1,3 +1,4 @@
+// 这是连接业务逻辑层和前端界面层的桥接类
 // zykl
 #pragma once
 #include <QObject>
@@ -14,10 +15,12 @@ public:
     void initializeService();
 
 public slots:
-    Q_INVOKABLE void loadCoursesFor(int student_id);
+    Q_INVOKABLE void load_StudnetCoursesFor(int student_id);
+    Q_INVOKABLE void load_TeacherCoursesFor(int teacher_id);
 
 signals:
-    void coursesLoaded(QString jsonResoult); //无参数的信号
+    void studentCoursesLoaded(QString jsonResoult); //无参数的信号
+    void teacherCoursesLoaded(QString jsonResoult); //无参数的信号
 
 private:
     QString m_jsonResoult;

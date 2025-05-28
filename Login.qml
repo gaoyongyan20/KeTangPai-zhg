@@ -1,14 +1,14 @@
 // 登录界面
-// date: 2025-5-9 author:何泳珊
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "LoginController.js" as LoginController
 
 Page {
     // 老师登录成功后发出的信号
-    signal teacherLoginSuccessfully
+    signal teacherLoginSuccessfully(var userData)
     // 学生登录成功后发出的信号
-    signal studentLoginSuccessfully(string username)  //一定要声明
+    signal studentLoginSuccessfully(var userData)
 
     background: Rectangle {
         width: parent.width
@@ -50,19 +50,21 @@ Page {
             ColumnLayout {
                 spacing: 15
                 TextField {
-                    id:usernameField
-                    placeholderText: qsTr("请输入账号")
+                    id: account
+                    placeholderText: qsTr("请输入邮箱/账号/手机号")
                     placeholderTextColor: "grey"
                     Layout.fillWidth: true // 填充父布局宽度
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: 30
                 }
                 TextField {
+                    id: password
                     placeholderText: "请输入密码"
                     placeholderTextColor: "grey"
                     Layout.fillWidth: true // 填充父布局宽度
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: 30
+                    echoMode: TextField.Password
                 }
                 Button {
                     text: "登录"
@@ -83,9 +85,36 @@ Page {
                         opacity: parent.pressed ? 0.7 : 1.0
                         radius: 5
                     }
-                    onClicked: choose_teacher.checked
-                               === true ? teacherLoginSuccessfully(
-                                              ) : studentLoginSuccessfully(usernameField.text)
+                    onClicked: {
+                        let role = choose_teacher.checked === true ? "teacher" : "student"
+                        if (account.text === "" || password.text === "") {
+                            errorLabel.visible = true
+                            errorLabel.text = "账号或密码不能为空"
+                        } else {
+                            LoginController.loginRequest(role, account.text,
+                                                         password.text,
+                                                         function (response) {
+                                                             if (response.userData.role
+                                                                     === "teacher") {
+                                                                 teacherLoginSuccessfully(
+                                                                             response.userData)
+                                                                 console.log("教师登录成功")
+                                                             } else if (response.userData.role
+                                                                        === "student") {
+                                                                 studentLoginSuccessfully(
+                                                                             response.userData)
+                                                                 console.log("学生登录成功")
+                                                             }
+                                                         })
+                        }
+                    }
+                }
+                Text {
+                    id: errorLabel
+                    text: ""
+                    color: "red"
+                    visible: true
+                    Layout.alignment: Qt.AlignHCenter
                 }
             }
         }

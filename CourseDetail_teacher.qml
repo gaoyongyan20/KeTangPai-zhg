@@ -71,7 +71,6 @@ Page {
             Rectangle{
                 width: courseDetail_teacher.width
                 height: courseDetail_teacher.height*0.8
-                color: "yellow"
                 anchors.bottom: parent.bottom
                 radius: 20//圆角半径
 
@@ -79,10 +78,9 @@ Page {
                 Rectangle{
                     width: parent.width
                     height: parent.height*0.18
-                    color: "pink"
+                    color: "white"
                     anchors.top:parent.top
                     radius:20
-
                     Row{
                         anchors.centerIn: parent
                         spacing: 50
@@ -212,7 +210,8 @@ Page {
                     width:parent.width
                     height: parent.height*0.85
                     anchors.bottom: parent.bottom
-
+                    anchors.topMargin: 10
+                    opacity: 0.8
                     StackView{
                         id:course_content
                         initialItem: directory
@@ -255,11 +254,11 @@ Page {
                             TabBar {
                                 width: implicitWidth
                                 height: parent.height
-                                spacing:20
+                                spacing: 20
 
                                 TabButton{
                                     text:"目录"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -273,7 +272,7 @@ Page {
 
                                 TabButton{
                                     text:"互动课件"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -287,7 +286,7 @@ Page {
 
                                 TabButton{
                                     text:"作业"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -301,7 +300,7 @@ Page {
 
                                 TabButton{
                                     text:"测试"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -315,7 +314,7 @@ Page {
 
                                 TabButton{
                                     text:"资料"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -329,7 +328,7 @@ Page {
 
                                 TabButton{
                                     text:"公告"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -343,7 +342,7 @@ Page {
 
                                 TabButton{
                                     text:"话题"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)
@@ -356,7 +355,7 @@ Page {
                                 }
                                 TabButton{
                                     text:"互动答题"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 18
                                     width:implicitWidth
                                     onClicked: {
                                         course_content.pop(course_content.currentItem)

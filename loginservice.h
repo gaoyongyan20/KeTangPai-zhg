@@ -1,4 +1,6 @@
+// 处理登录的业务逻辑
 #pragma once
+
 #include <QHttpServerRequest>
 #include <QHttpServerResponse>
 #include <QObject>
@@ -11,7 +13,5 @@ public:
     QHttpServerResponse handleLogin(const QHttpServerRequest &request);
 
 private:
-    QPair<bool, QString> checkCredentials(const QString &username, const QString &password);
-    QHttpServerResponse successResponse(const QString &username, const QString &role);
     QHttpServerResponse errorResponse(const QString &message);
 };

@@ -8,8 +8,8 @@ import "CourseController.js" as CourseController
 Page {
     id: _homePage_student
     property alias text: _text
-    property alias course_list_model: _course_list_model
-    property alias couse_list: _couse_list
+    property alias studentcourse_list_model: _studentcourse_list_model
+    property alias studentcouse_list: _studentcouse_list
 
     //当点击加入课程时，发出信号-以显示加入课程页面
     signal joinCourses_student()  //一定要声明
@@ -18,13 +18,13 @@ Page {
 
     //页面push加载成功后就显示数据
     Component.onCompleted: {
-        courseBridge.loadCoursesFor(3)
+        courseBridge.load_StudnetCoursesFor(User.userId)
     }
 
     Connections{
         target: courseBridge
-        function onCoursesLoaded(jsonResoult){
-            CourseController.loadCourse(jsonResoult);
+        function onStudentCoursesLoaded(jsonResoult){
+            CourseController.load_studentCourse(jsonResoult);
         }
     }
 
@@ -86,16 +86,17 @@ Page {
                 anchors.topMargin: 10
                 ScrollView {
                     anchors.fill: parent
-                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOn
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
                     ScrollBar.vertical.policy: ScrollBar.AlwaysOff
                     ListView {
-                        id:_couse_list
+                        id:_studentcouse_list
                         orientation: ListView.Horizontal
                         width: 20
                         height: parent.height
                         spacing: 10
                         ListModel {
-                        id: _course_list_model
+                        id: _studentcourse_list_model
                         }
                         delegate: ListDelegate {}
                     }
@@ -107,9 +108,8 @@ Page {
                         required property int index
                         id: course
                         width: 140
-                        height: _couse_list.height
-                        color: Qt.rgba(Math.random(), Math.random(),
-                                       Math.random(), 1)
+                        height: _studentcouse_list.height
+                        color: "grey"
                         TapHandler {
                             onTapped:{
                                 console.log(index)
@@ -118,39 +118,31 @@ Page {
                         }
                         Column {
                             //存放课程图片，因为资源文件不太可以，所以
-                            Rectangle {
+                            Rectangle{
                                 width: 140
-                                height: 80
-                                color: "#1e90ff"
-                                Button {
-                                    text: ":"
-                                    anchors.right: parent.right
-                                    width: 20
-                                    height: 20
-                                    background: Rectangle {
-                                        color: "#1e90ff"
-                                    }
+                                height: 70
+
+                                Image{
+                                    anchors.fill: parent
+                                    source:index % 2 === 0 ? "qrc:/coursePicture2.png" : "qrc:/coursePicture1.png"
                                 }
                             }
                             //显示课程码
                             Text {
-                                id: code
                                 text: course_code
-                                font.pixelSize: 12
+                                font.pixelSize: 8
                             }
 
                             //显示课程名称
                             Text {
-                                //后续使用id修改text
-                                id: courseName
                                 text: course_name
+                                font.pixelSize: 11
+                                font.bold: true
                             }
                             //显示课程所属班级
                             Text {
-                                //后续使用id修改text
-                                id: classs
                                 text:class_name
-                                font.pixelSize: 15
+                                font.pixelSize: 8
                             }
 
                         }

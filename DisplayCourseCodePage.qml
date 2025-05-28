@@ -7,8 +7,71 @@ import QtQuick.Layouts 1.15
 import "CourseController.js" as CourseController
 
 Page {
+    id: _displayCourseCode_Page
     //退出本页面
     signal exitThisPage
+    // 在Page根元素内添加这个组件
+    Rectangle {
+        id: toastNotification
+        width: 200
+        height: 60
+        // color: "#4CAF50"  // 绿色背景
+        radius: 4
+        anchors.centerIn: parent
+        opacity: 0
+        visible: opacity > 0 // 只有在调用show函数的时候，此时opacity才>1
+
+        Label {
+            id: notification_label
+            text: "课程创建失败"
+            color: "red"
+            anchors.centerIn: parent
+            font.pixelSize: 20
+        }
+        // 实现效果：：透明度会在0.3秒内逐渐变化，而不是瞬间跳变
+        Behavior on opacity {
+            // 用于对数值类型属性（如 opacity、x、width 等）的变化过程进行插值动画
+            NumberAnimation {
+                duration: 300
+            }
+        }
+
+        Timer {
+            id: toastTimer
+            interval: 2000 // 2秒后自动消失
+            onTriggered: toastNotification.opacity = 0 // 当定时器时间到时，信息变为透明
+        }
+
+    }
+    // 清空所有输入框并移动焦点到第一个
+    function clearInputFields() {
+        inputRow.fields.forEach(function(field, index) {
+            const textInput = field.children[0];
+            if (textInput) {
+                textInput.text = ""; // 清空文本
+                if (index === 0) {
+                    Qt.callLater(() => { // 延迟设置焦点，确保界面更新
+                        textInput.forceActiveFocus();
+                        textInput.cursorPosition = 0; // 光标位置
+                    });
+                }
+            }
+        });
+    }
+    function show(message) {
+        notification_label.text = message
+        toastNotification.opacity = 1
+        toastTimer.start()
+        // inputRow.fields.forEach(function(field) {
+        //     const textInput = field.children[0];
+        //     if (textInput && textInput instanceof TextInput) {
+        //         textInput.text = ""; // 清空文本
+        //     }
+        // });
+        clearInputFields(); // 调用清空函数
+
+    }
+
 
     //返回按钮（绝对定位在左上角）
     header: Rectangle {
@@ -97,10 +160,11 @@ Page {
                         font.pixelSize: 16
                         //限制用户只能输入1个数字
                         maximumLength: 1
-                        //合法器：限制用户只能输出0到9之间的数字
+
+                        //合法器：
                         validator: RegularExpressionValidator {
-                                                   regularExpression: /^[a-zA-Z0-9]$/
-                                               }
+                            regularExpression: /^[a-zA-Z0-9]$/
+                        }
                         horizontalAlignment: TextInput.AlignHCenter
                         verticalAlignment: TextInput.AlignVCenter
                         focus: index === 0 // 默认第一个获得焦点
@@ -114,13 +178,11 @@ Page {
                             } else if (index === 5 && text.length === 1) {
                                 //当输入到第6个字符时（因为index从0开始，text.length=5表示第6个框有内容）
                                 //验证输入的课程码的正确性
-                                console.log("调试6位加课码都已全部输入")
                                 //全部输入完整就发送加课码给服务器进行后续操作
                                 const courseCode = inputRow.fields.map(
                                             field => field.children[0].text).join('')
                                 console.log("完整课程码:", courseCode)
-                                console.log(User.name)
-                                CourseController.joinRequest(3,courseCode)
+                                CourseController.joinRequest(User.userId ,courseCode)
                             }
                         }
                         //回退输入
