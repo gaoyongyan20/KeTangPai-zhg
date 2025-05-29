@@ -1,3 +1,4 @@
+// 数据管理层 - 访问数据库
 #include "databasemanagement.h"
 #include <QJsonArray>
 #include <QSqlDriver>
@@ -19,7 +20,7 @@ bool DatabaseManagement::connectToDatabase()
 {
     m_db = QSqlDatabase::addDatabase("QODBC");
     m_db.setDatabaseName("DRIVER={MariaDB ODBC 3.1 Driver};" // 驱动名必须与ini文件严格一致
-                         "SERVER=localhost;"
+                         "SERVER=10.253.66.224;"
                          "DATABASE=KeTangPai;" // 修改为ini中的数据库名
                          "UID=mysql;"          // 修改为ini中的用户名
                          "PWD=root;");         // 修改为ini中的密码

@@ -1,5 +1,7 @@
+// 主页面层，封装了StackView
 import QtQuick
 import QtQuick.Controls
+import "CourseController.js" as CourseController
 
 Item {
     //stackView  id
@@ -78,8 +80,6 @@ Item {
     StackView {
         id: _stackView
         anchors.fill: parent
-
-
 
         initialItem: login
 

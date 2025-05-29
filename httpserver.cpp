@@ -1,3 +1,4 @@
+// 通信端
 #include "httpserver.h"
 #include "courseservice.h"
 #include "databasemanagement.h"
@@ -61,5 +62,19 @@ void HttpServer::registerRoutes()
                         [courseService](const QHttpServerRequest
                                             &req) { //常量引用传递HTTP请求对象，避免深拷贝提高性能
                             return courseService->handleJoin(req);
+                        });
+    // 处理老师所有创建课程信息的请求
+    m_httpServer->route("/loadTeacherCourses",
+                        QHttpServerRequest::Method::Post,
+                        [courseService](const QHttpServerRequest
+                                            &req) { //常量引用传递HTTP请求对象，避免深拷贝提高性能
+                            return courseService->handleLoadTeacherCourses(req);
+                        });
+    // 处理学生加入的课程信息的请求
+    m_httpServer->route("/loadStudentCourses",
+                        QHttpServerRequest::Method::Post,
+                        [courseService](const QHttpServerRequest
+                                            &req) { //常量引用传递HTTP请求对象，避免深拷贝提高性能
+                            return courseService->handleLoadStudentCourses(req);
                         });
 }

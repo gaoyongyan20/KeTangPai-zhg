@@ -61,6 +61,72 @@ QHttpServerResponse CourseService::handleCreateCourse(const QHttpServerRequest &
     return QHttpServerResponse("application/json", QJsonDocument(res).toJson());
 }
 
+QHttpServerResponse CourseService::handleLoadTeacherCourses(const QHttpServerRequest &request)
+{
+    qDebug() << "nihao";
+    QJsonParseError parseError; // 报告JSON解析过程中的错误
+    QJsonDocument doc = QJsonDocument::fromJson(request.body(), &parseError);
+
+    // 错误检查
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        return errorResponse("请求格式错误");
+    }
+
+    QJsonObject obj = doc.object(); // 返回doc文档中包含的JSON对象
+    int teacher_id = obj.value("teacher_id").toInt();
+
+    qDebug() << "老师是：";
+    qDebug() << teacher_id;
+
+    auto [status, jsonArray] = getCoursesesJsonForTeacher(teacher_id);
+    if (status) {
+        // 将QJsonArray转换为QByteArray
+        QJsonDocument jsonDoc(jsonArray);
+        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+        qDebug() << "原始 JSON：" << QString::fromUtf8(jsonData);
+        // 使用正确的构造函数
+        return QHttpServerResponse("application/json;charset=UTF-8",   // MIME类型
+                                   jsonData,                           // JSON数据
+                                   QHttpServerResponse::StatusCode::Ok // 状态码
+        );
+
+    } else {
+        return errorResponse("加载老师创建课程内容失败！");
+    }
+}
+QHttpServerResponse CourseService::handleLoadStudentCourses(const QHttpServerRequest &request)
+{
+    qDebug() << "nihao";
+    QJsonParseError parseError; // 报告JSON解析过程中的错误
+    QJsonDocument doc = QJsonDocument::fromJson(request.body(), &parseError);
+
+    // 错误检查
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        return errorResponse("请求格式错误");
+    }
+
+    QJsonObject obj = doc.object(); // 返回doc文档中包含的JSON对象
+    int student_id = obj.value("student_id").toInt();
+
+    qDebug() << "学生是：";
+    qDebug() << student_id;
+
+    auto [status, jsonArray] = getCoursesesJsonForStudent(student_id);
+    if (status) {
+        // 将QJsonArray转换为QByteArray
+        QJsonDocument jsonDoc(jsonArray);
+        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+        qDebug() << "原始 JSON：" << QString::fromUtf8(jsonData);
+        // 使用正确的构造函数
+        return QHttpServerResponse("application/json;charset=UTF-8",   // MIME类型
+                                   jsonData,                           // JSON数据
+                                   QHttpServerResponse::StatusCode::Ok // 状态码
+        );
+
+    } else {
+        return errorResponse("加载学生加入课程内容失败！");
+    }
+}
 // 处理加入课程的业务逻辑
 QHttpServerResponse CourseService::handleJoin(const QHttpServerRequest &request)
 {
@@ -154,10 +220,8 @@ QHttpServerResponse CourseService::errorResponse(const QString &message)
 
 //----------------------------------------处理课程显示---------------------------------------------------
 //学生界面课程详细信息显示
-QJsonArray CourseService::getCoursesesJsonForStudent(int student_id)
+QPair<bool, QJsonArray> CourseService::getCoursesesJsonForStudent(int student_id)
 {
-    qDebug() << "hh";
-
     QJsonArray array;
     QSqlQuery queryCourses = DatabaseManagement::instance().execute(
         R"(
@@ -183,14 +247,13 @@ QJsonArray CourseService::getCoursesesJsonForStudent(int student_id)
         obj["class_name"] = queryCourses.value(3).toString();
         array.append(obj);
     }
-    return array;
+    qDebug() << "数据库中：" << array;
+    return QPair<bool, QJsonArray>(true, array);
 }
 
 //教师界面详细课程显示
-QJsonArray CourseService::getCoursesesJsonForTeacher(int teacher_id)
+QPair<bool, QJsonArray> CourseService::getCoursesesJsonForTeacher(int teacher_id)
 {
-    qDebug() << "hh";
-
     QJsonArray array;
     QSqlQuery queryCourses = DatabaseManagement::instance().execute(
         R"(
@@ -205,7 +268,6 @@ QJsonArray CourseService::getCoursesesJsonForTeacher(int teacher_id)
         c.teacher_id = ?;
     )",
         {teacher_id});
-
     while (queryCourses.next()) {
         QJsonObject obj;
         obj["course_id"] = queryCourses.value(0).toInt();
@@ -214,9 +276,9 @@ QJsonArray CourseService::getCoursesesJsonForTeacher(int teacher_id)
         obj["class_name"] = queryCourses.value(3).toString();
         array.append(obj);
     }
-    return array;
+    // qDebug() << "数据库中：" << array;
+    return QPair<bool, QJsonArray>(true, array);
 }
-
 // 随机生成加课码
 QString CourseService::generateJoinCode()
 {

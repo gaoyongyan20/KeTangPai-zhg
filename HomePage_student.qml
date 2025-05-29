@@ -18,16 +18,8 @@ Page {
 
     //页面push加载成功后就显示数据
     Component.onCompleted: {
-        courseBridge.load_StudnetCoursesFor(User.userId)
+        CourseController.loadStudentCoursesRequest(User.userId)
     }
-
-    Connections{
-        target: courseBridge
-        function onStudentCoursesLoaded(jsonResoult){
-            CourseController.load_studentCourse(jsonResoult);
-        }
-    }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     ColumnLayout {

@@ -1,4 +1,4 @@
-// 该类是程序的处理网络请求的服务器类
+// 该类是程序的处理网络请求的服务器类 - 通信层
 #pragma once
 #include <QHttpServer>
 #include <QObject>

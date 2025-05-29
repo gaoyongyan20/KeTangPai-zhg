@@ -1,3 +1,4 @@
+// 处理登录的业务逻辑
 #include "loginservice.h"
 #include <QDebug>
 #include <QJsonObject> // 封装了一个JSON对象

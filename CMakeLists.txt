@@ -73,10 +73,6 @@ qt_add_qml_module(
   SOURCES
   user.h #
   SOURCES
-  CourseBridge.h #
-  SOURCES
-  CourseBridge.cpp #
-  SOURCES
   course.cpp
   course.h
   RESOURCES

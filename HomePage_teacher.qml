@@ -14,14 +14,7 @@ Page {
     property alias teachercouse_list: _teachercourse_list
 
     Component.onCompleted: {
-        courseBridge.load_TeacherCoursesFor(User.userId)
-    }
-
-    Connections{
-        target: courseBridge
-        function onTeacherCoursesLoaded(jsonResoult){
-            CourseController.load_teacherCourse(jsonResoult)
-        }
+        CourseController.loadTeacherCoursesRequest(User.userId)
     }
 
     //学生当点击加入课程时，发出信号-以显示加入课程页面

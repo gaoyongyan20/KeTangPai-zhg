@@ -325,7 +325,6 @@ Page {
             var jsonData = courseObj.toJson() // 将请求封装为json格式
             CourseController.createCourseRequest(jsonData, function (response) {
                 if (response.status === "success") {
-                    courseBridge.load_TeacherCoursesFor(User.userId)
                     console.log("创建课程对象成功!")
                     // 1. 在ui应该显示创建对象成功的消息（用对话框吗？）
                     toastNotification.show("课程创建成功！")
@@ -340,7 +339,11 @@ Page {
     Timer {
         id: exitTimer
         interval: 1000 // 1秒后退出
-        onTriggered: exitCreateCoursePage() // 定时器到时间后退出当前界面
+        onTriggered:
+            {
+               CourseController.loadTeacherCoursesRequest(User.userId)
+               exitCreateCoursePage() // 定时器到时间后退出当前界面
+            }
     }
 
     // 在Page根元素内添加这个组件

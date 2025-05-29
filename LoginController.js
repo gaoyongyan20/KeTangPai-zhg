@@ -1,6 +1,10 @@
+// 处理登录的控制器层
+
+// 服务器的ip地址和端口
+var _server_url = "http://10.253.66.224:8088/"
 function loginRequest(role, account, password, callback) {
     var request = new XMLHttpRequest()
-    request.open("POST", "http://localhost:8088/login")
+    request.open("POST", _server_url + "login")
     request.setRequestHeader("Content-Type", "application/json")
 
     // 准备发送的数据

@@ -1,7 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext> //注册C++类user的时候用的
-#include "CourseBridge.h"
 #include "httpserver.h"
 #include "user.h"
 
@@ -9,21 +8,18 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    //服务端
-    HttpServer *httpServer = new HttpServer();
-    if (!httpServer->startServer()) {
-        qDebug() << "服务器启动失败";
-        return -1;
-    }
+    // //服务端
+    // HttpServer *httpServer = new HttpServer();
+    // if (!httpServer->startServer()) {
+    //     qDebug() << "服务器启动失败";
+    //     return -1;
+    // }
 
     QQmlApplicationEngine engine;
     // 客户端
     // 注册C++类型
     User user;
     engine.rootContext()->setContextProperty("User", &user);
-
-    CourseBridge coursebridge;
-    engine.rootContext()->setContextProperty("courseBridge", &coursebridge);
 
     const QUrl url(QStringLiteral("qrc:/Ketangpai/Window.qml"));
 
